@@ -664,7 +664,7 @@
 
     .cal-dow {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(7, 34px);
       gap: 3px;
       margin-bottom: 4px;
     }
@@ -680,16 +680,17 @@
 
     .cal-grid {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(7, 34px);
       gap: 3px;
     }
     .cal-cell {
-      aspect-ratio: 1;
+      width: 34px;
+      height: 34px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 6px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       color: rgba(255,255,255,0.72);
       cursor: pointer;
@@ -724,6 +725,7 @@
       margin-bottom: 10px;
     }
     .time-slots { display: flex; flex-wrap: wrap; gap: 7px; }
+    .time-slots { display: flex; flex-wrap: wrap; gap: 7px; }
     .t-slot {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.09);
@@ -732,7 +734,9 @@
       font-size: 12px;
       font-weight: 500;
       font-family: 'Inter', sans-serif;
-      padding: 7px 11px;
+      width: 76px;
+      text-align: center;
+      padding: 7px 0;
       cursor: pointer;
       transition: background 0.13s ease, border-color 0.13s ease, color 0.13s ease,
                   transform 0.13s cubic-bezier(.34,1.56,.64,1);
@@ -1601,6 +1605,10 @@
               <input type="tel" id="bk-phone" placeholder="7771 0000" autocomplete="tel">
             </div>
           </div>
+          <div class="bk-fg" style="margin-top:10px;">
+            <label for="bk-email">Email *</label>
+            <input type="email" id="bk-email" placeholder="your@email.com" autocomplete="email">
+          </div>
           <button class="btn btn-gold bk-submit-btn" onclick="submitBooking()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             Confirm Booking
@@ -1680,8 +1688,10 @@ function openBooking(card) {
   document.getElementById('bk-form-inner').style.display = '';
   document.getElementById('bk-name').value  = '';
   document.getElementById('bk-phone').value = '';
+  document.getElementById('bk-email').value = '';
   document.getElementById('bk-name').classList.remove('err');
   document.getElementById('bk-phone').classList.remove('err');
+  document.getElementById('bk-email').classList.remove('err');
 
   const now = new Date();
   calMonth = now.getMonth();
@@ -1773,14 +1783,17 @@ function selectTime(time, btn) {
 function submitBooking() {
   const name  = document.getElementById('bk-name').value.trim();
   const phone = document.getElementById('bk-phone').value.trim();
+  const email = document.getElementById('bk-email').value.trim();
+  const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   let ok = true;
-  document.getElementById('bk-name').classList.toggle('err', !name);   if (!name)  ok = false;
-  document.getElementById('bk-phone').classList.toggle('err', !phone); if (!phone) ok = false;
+  document.getElementById('bk-name').classList.toggle('err', !name);          if (!name)        ok = false;
+  document.getElementById('bk-phone').classList.toggle('err', !phone);         if (!phone)       ok = false;
+  document.getElementById('bk-email').classList.toggle('err', !validEmail);    if (!validEmail)  ok = false;
   if (!selDate || !selTime || !ok) return;
 
   const dateStr = selDate.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
   const bookings = JSON.parse(localStorage.getItem('g3r_bookings') || '[]');
-  bookings.push({ name, phone, service: activeSvc, date: dateStr, time: selTime, at: new Date().toISOString() });
+  bookings.push({ name, phone, email, service: activeSvc, date: dateStr, time: selTime, at: new Date().toISOString() });
   localStorage.setItem('g3r_bookings', JSON.stringify(bookings));
 
   document.getElementById('bk-form-inner').style.display = 'none';
@@ -1802,7 +1815,7 @@ document.getElementById('bk-overlay').addEventListener('click', e => {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // Clear field errors on input
-['bk-name','bk-phone'].forEach(id => {
+['bk-name','bk-phone','bk-email'].forEach(id => {
   document.getElementById(id).addEventListener('input', function() { this.classList.remove('err'); });
 });
 </script>
