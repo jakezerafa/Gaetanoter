@@ -557,6 +557,256 @@
       margin-top: 4px;
       font-style: italic;
     }
+    .svc-card { cursor: pointer; }
+
+    /* ═══════════════════════════════
+       BOOKING MODAL
+    ═══════════════════════════════ */
+    #bk-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.78);
+      backdrop-filter: blur(8px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    #bk-overlay.open { opacity: 1; pointer-events: all; }
+
+    .bk-modal {
+      background: #141414;
+      border: 1px solid rgba(201,168,76,0.22);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 460px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: translateY(24px) scale(0.97);
+      transition: transform 0.32s cubic-bezier(.16,1,.3,1);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.75), 0 8px 32px rgba(0,0,0,0.5);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(201,168,76,0.2) transparent;
+    }
+    #bk-overlay.open .bk-modal { transform: translateY(0) scale(1); }
+
+    .bk-header {
+      padding: 22px 22px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      background: #141414;
+      z-index: 1;
+    }
+    .bk-svc-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+    .bk-svc-meta { font-size: 13px; color: var(--gold); margin-top: 5px; }
+    .bk-close {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 7px;
+      cursor: pointer;
+      color: rgba(255,255,255,0.5);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      transition: background 0.18s ease, color 0.18s ease, transform 0.18s cubic-bezier(.34,1.56,.64,1);
+    }
+    .bk-close:hover { background: rgba(255,255,255,0.12); color: #fff; transform: scale(1.1); }
+    .bk-close:focus-visible { outline: 2px solid var(--gold); }
+
+    .bk-body { padding: 22px; }
+
+    /* Calendar */
+    .cal-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .cal-month-lbl {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.06em;
+    }
+    .cal-arr {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      color: rgba(255,255,255,0.55);
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease, transform 0.15s cubic-bezier(.34,1.56,.64,1);
+    }
+    .cal-arr:hover { background: rgba(255,255,255,0.12); color: #fff; transform: scale(1.1); }
+    .cal-arr:active { transform: scale(0.94); }
+    .cal-arr:focus-visible { outline: 2px solid var(--gold); }
+
+    .cal-dow {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+      margin-bottom: 4px;
+    }
+    .cal-dow span {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.28);
+      padding: 3px 0;
+    }
+    .cal-dow span.su { color: rgba(224,82,82,0.4); }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .cal-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.72);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background 0.13s ease, color 0.13s ease, border-color 0.13s ease,
+                  transform 0.13s cubic-bezier(.34,1.56,.64,1);
+    }
+    .cal-cell:hover:not(.disabled):not(.selected) {
+      background: rgba(201,168,76,0.12);
+      color: var(--gold);
+      border-color: rgba(201,168,76,0.25);
+      transform: scale(1.1);
+    }
+    .cal-cell.today:not(.selected) { border-color: rgba(201,168,76,0.4); color: var(--gold); }
+    .cal-cell.selected { background: var(--gold); color: #080808; font-weight: 700; transform: scale(1.1); border-color: var(--gold); }
+    .cal-cell.disabled { color: rgba(255,255,255,0.14); cursor: default; pointer-events: none; }
+    .cal-cell.sunday.disabled { color: rgba(224,82,82,0.2); }
+    .cal-cell.empty { pointer-events: none; }
+
+    /* Time slots */
+    .bk-divider {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .bk-sub-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 10px;
+    }
+    .time-slots { display: flex; flex-wrap: wrap; gap: 7px; }
+    .t-slot {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 6px;
+      color: rgba(255,255,255,0.62);
+      font-size: 12px;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      padding: 7px 11px;
+      cursor: pointer;
+      transition: background 0.13s ease, border-color 0.13s ease, color 0.13s ease,
+                  transform 0.13s cubic-bezier(.34,1.56,.64,1);
+    }
+    .t-slot:hover:not(.selected) {
+      background: rgba(201,168,76,0.1);
+      border-color: rgba(201,168,76,0.3);
+      color: var(--gold);
+      transform: translateY(-1px);
+    }
+    .t-slot.selected {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #080808;
+      font-weight: 700;
+      transform: translateY(-1px);
+    }
+    .t-slot:focus-visible { outline: 2px solid var(--gold); }
+
+    /* Contact fields */
+    .bk-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .bk-fg { display: flex; flex-direction: column; gap: 6px; }
+    .bk-fg label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .bk-fg input {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 7px;
+      padding: 11px 13px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .bk-fg input::placeholder { color: rgba(255,255,255,0.22); }
+    .bk-fg input:focus { border-color: rgba(201,168,76,0.45); box-shadow: 0 0 0 3px rgba(201,168,76,0.09); }
+    .bk-fg input.err { border-color: rgba(224,82,82,0.5); box-shadow: 0 0 0 3px rgba(224,82,82,0.08); }
+
+    .bk-submit-btn {
+      width: 100%;
+      justify-content: center;
+      margin-top: 16px;
+      padding: 14px;
+      font-size: 14px;
+      border-radius: 8px;
+    }
+
+    /* Success */
+    .bk-ok { display: none; text-align: center; padding: 12px 0 4px; }
+    .bk-ok.show { display: block; }
+    .bk-ok-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.12);
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+      font-size: 20px; color: var(--gold);
+    }
+    .bk-ok-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px; letter-spacing: 0.04em; margin-bottom: 8px;
+    }
+    .bk-ok-msg { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; margin-bottom: 20px; }
+
+    @media (max-width: 480px) {
+      .bk-row2 { grid-template-columns: 1fr; }
+    }
 
     /* ═══════════════════════════════
        GALLERY
@@ -1293,6 +1543,74 @@
   </div>
 </footer>
 
+<!-- ══════════════════════════════════════
+     BOOKING MODAL
+══════════════════════════════════════ -->
+<div id="bk-overlay" role="dialog" aria-modal="true" aria-labelledby="bk-modal-title">
+  <div class="bk-modal">
+    <div class="bk-header">
+      <div>
+        <div class="bk-svc-name" id="bk-modal-title"></div>
+        <div class="bk-svc-meta" id="bk-modal-meta"></div>
+      </div>
+      <button class="bk-close" onclick="closeModal()" aria-label="Close">✕</button>
+    </div>
+
+    <div class="bk-body">
+      <!-- Success state -->
+      <div class="bk-ok" id="bk-ok">
+        <div class="bk-ok-icon">✓</div>
+        <div class="bk-ok-title">YOU'RE BOOKED</div>
+        <p class="bk-ok-msg">Your request has been saved.<br>Gaetano will confirm shortly.<br>See you at the garage.</p>
+        <button class="btn btn-ghost" onclick="closeModal()" style="margin:0 auto;">Close</button>
+      </div>
+
+      <!-- Booking form -->
+      <div id="bk-form-inner">
+        <!-- Calendar -->
+        <div class="cal-nav">
+          <button class="cal-arr" onclick="shiftMonth(-1)" aria-label="Previous month">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="cal-month-lbl" id="cal-month-lbl"></div>
+          <button class="cal-arr" onclick="shiftMonth(1)" aria-label="Next month">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <div class="cal-dow">
+          <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span class="su">Su</span>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+
+        <!-- Time slots — revealed after date pick -->
+        <div class="bk-divider" id="bk-times" style="display:none;">
+          <div class="bk-sub-label">Select a time</div>
+          <div class="time-slots" id="time-slots"></div>
+        </div>
+
+        <!-- Contact fields — revealed after time pick -->
+        <div class="bk-divider" id="bk-contact" style="display:none;">
+          <div class="bk-sub-label">Your details</div>
+          <div class="bk-row2">
+            <div class="bk-fg">
+              <label for="bk-name">Name *</label>
+              <input type="text" id="bk-name" placeholder="Your name" autocomplete="name">
+            </div>
+            <div class="bk-fg">
+              <label for="bk-phone">Phone *</label>
+              <input type="tel" id="bk-phone" placeholder="7771 0000" autocomplete="tel">
+            </div>
+          </div>
+          <button class="btn btn-gold bk-submit-btn" onclick="submitBooking()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Confirm Booking
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ── NAV SCROLL STATE ──
 const nav = document.getElementById('nav');
@@ -1330,89 +1648,163 @@ document.querySelectorAll('.reveal').forEach(el => {
   io.observe(el);
 });
 
-// ── TIME SLOTS ──
-(function buildSlots() {
-  const sel = document.getElementById('f-time');
+// ── BOOKING MODAL ──
+let calMonth, calYear, selDate = null, selTime = null, activeSvc = '';
+
+const TIME_SLOTS = (() => {
+  const slots = [];
   for (let h = 8; h <= 18; h++) {
     for (let m = 0; m < 60; m += 30) {
       if (h === 8 && m === 0) continue;
       if (h === 18 && m === 30) continue;
-      const h12  = h > 12 ? h - 12 : (h === 0 ? 12 : h);
-      const ampm = h >= 12 ? 'PM' : 'AM';
-      const mStr = m === 0 ? '00' : '30';
-      const opt  = document.createElement('option');
-      opt.value       = `${String(h).padStart(2,'0')}:${mStr}`;
-      opt.textContent = `${h12}:${mStr} ${ampm}`;
-      sel.appendChild(opt);
+      const h12 = h > 12 ? h - 12 : h;
+      const ap  = h >= 12 ? 'PM' : 'AM';
+      slots.push(`${h12}:${m === 0 ? '00' : '30'} ${ap}`);
     }
   }
+  return slots;
 })();
 
-// ── DATE BOUNDS ──
-(function setDateBounds() {
-  const inp = document.getElementById('f-date');
-  const fmt = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  const today = new Date();
-  const max   = new Date(today); max.setDate(max.getDate() + 60);
-  inp.min = fmt(today);
-  inp.max = fmt(max);
-})();
+function openBooking(card) {
+  activeSvc = card.querySelector('.svc-name').textContent;
+  const price = card.querySelector('.svc-price').textContent;
+  const dur   = card.querySelector('.svc-dur').textContent;
 
-// ── FORM VALIDATION ──
-function setErr(fieldId, errId, show) {
-  document.getElementById(fieldId).classList.toggle('err', show);
-  document.getElementById(errId).classList.toggle('show', show);
+  document.getElementById('bk-modal-title').textContent = activeSvc;
+  document.getElementById('bk-modal-meta').textContent  = price + ' · ' + dur;
+
+  selDate = null; selTime = null;
+  document.getElementById('bk-times').style.display   = 'none';
+  document.getElementById('bk-contact').style.display = 'none';
+  document.getElementById('bk-ok').classList.remove('show');
+  document.getElementById('bk-form-inner').style.display = '';
+  document.getElementById('bk-name').value  = '';
+  document.getElementById('bk-phone').value = '';
+  document.getElementById('bk-name').classList.remove('err');
+  document.getElementById('bk-phone').classList.remove('err');
+
+  const now = new Date();
+  calMonth = now.getMonth();
+  calYear  = now.getFullYear();
+  renderCalendar();
+
+  document.getElementById('bk-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
-function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
-function validPhone(v) { return v.replace(/[\s\-\+\(\)]/g,'').length >= 7; }
-function isSunday(s)   { return s ? new Date(s + 'T12:00:00').getDay() === 0 : false; }
 
-document.getElementById('bk-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const name    = document.getElementById('f-name').value.trim();
-  const phone   = document.getElementById('f-phone').value.trim();
-  const email   = document.getElementById('f-email').value.trim();
-  const service = document.getElementById('f-service').value;
-  const date    = document.getElementById('f-date').value;
-  const time    = document.getElementById('f-time').value;
+function closeModal() {
+  document.getElementById('bk-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
+function shiftMonth(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0)  { calMonth = 11; calYear--; }
+  renderCalendar();
+}
+
+function renderCalendar() {
+  document.getElementById('cal-month-lbl').textContent =
+    new Date(calYear, calMonth, 1).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+
+  const today       = new Date(); today.setHours(0,0,0,0);
+  const firstDay    = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const offset      = (firstDay + 6) % 7; // Mon-first
+
+  for (let i = 0; i < offset; i++) {
+    const el = document.createElement('div');
+    el.className = 'cal-cell empty';
+    grid.appendChild(el);
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date   = new Date(calYear, calMonth, d);
+    const isSun  = date.getDay() === 0;
+    const isPast = date < today;
+    const isTod  = date.toDateString() === today.toDateString();
+    const isSel  = selDate && date.toDateString() === selDate.toDateString();
+
+    const el = document.createElement('div');
+    el.textContent = d;
+    const cls = ['cal-cell'];
+    if (isSun || isPast) cls.push('disabled');
+    if (isSun) cls.push('sunday');
+    if (isTod && !isSel) cls.push('today');
+    if (isSel) cls.push('selected');
+    el.className = cls.join(' ');
+
+    if (!isSun && !isPast) el.onclick = () => selectDate(date);
+    grid.appendChild(el);
+  }
+}
+
+function selectDate(date) {
+  selDate = date; selTime = null;
+  renderCalendar();
+
+  const container = document.getElementById('time-slots');
+  container.innerHTML = '';
+  TIME_SLOTS.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 't-slot';
+    btn.textContent = t;
+    btn.onclick = () => selectTime(t, btn);
+    container.appendChild(btn);
+  });
+
+  document.getElementById('bk-times').style.display = '';
+  document.getElementById('bk-contact').style.display = 'none';
+  setTimeout(() => document.getElementById('bk-times').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function selectTime(time, btn) {
+  selTime = time;
+  document.querySelectorAll('.t-slot').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('bk-contact').style.display = '';
+  setTimeout(() => document.getElementById('bk-contact').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function submitBooking() {
+  const name  = document.getElementById('bk-name').value.trim();
+  const phone = document.getElementById('bk-phone').value.trim();
   let ok = true;
-  setErr('f-name',    'e-name',    !name);                        if (!name)                    ok = false;
-  setErr('f-phone',   'e-phone',   !validPhone(phone));            if (!validPhone(phone))       ok = false;
-  setErr('f-email',   'e-email',   !validEmail(email));            if (!validEmail(email))       ok = false;
-  setErr('f-service', 'e-service', !service);                      if (!service)                 ok = false;
-  setErr('f-date',    'e-date',    !date || isSunday(date));       if (!date || isSunday(date))  ok = false;
-  setErr('f-time',    'e-time',    !time);                         if (!time)                    ok = false;
+  document.getElementById('bk-name').classList.toggle('err', !name);   if (!name)  ok = false;
+  document.getElementById('bk-phone').classList.toggle('err', !phone); if (!phone) ok = false;
+  if (!selDate || !selTime || !ok) return;
 
-  if (!ok) return;
-
+  const dateStr = selDate.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
   const bookings = JSON.parse(localStorage.getItem('g3r_bookings') || '[]');
-  bookings.push({ name, phone, email, service, date, time,
-    notes: document.getElementById('f-notes').value.trim(),
-    at: new Date().toISOString() });
+  bookings.push({ name, phone, service: activeSvc, date: dateStr, time: selTime, at: new Date().toISOString() });
   localStorage.setItem('g3r_bookings', JSON.stringify(bookings));
 
-  document.getElementById('bk-form').style.display = 'none';
-  document.getElementById('bk-success').classList.add('show');
-});
-
-// Clear errors on input
-document.querySelectorAll('input, select, textarea').forEach(el => {
-  el.addEventListener('input', () => {
-    el.classList.remove('err');
-    const err = document.getElementById('e-' + el.id.replace('f-',''));
-    if (err) err.classList.remove('show');
-  });
-});
-
-function resetForm() {
-  const form = document.getElementById('bk-form');
-  form.reset();
-  form.style.display = '';
-  document.getElementById('bk-success').classList.remove('show');
-  document.querySelectorAll('.err').forEach(el => el.classList.remove('err'));
-  document.querySelectorAll('.ferr.show').forEach(el => el.classList.remove('show'));
+  document.getElementById('bk-form-inner').style.display = 'none';
+  document.getElementById('bk-ok').classList.add('show');
 }
+
+// Open modal on service card click
+document.querySelector('.services-grid').addEventListener('click', e => {
+  const card = e.target.closest('.svc-card');
+  if (card) openBooking(card);
+});
+
+// Close on backdrop click
+document.getElementById('bk-overlay').addEventListener('click', e => {
+  if (e.target.id === 'bk-overlay') closeModal();
+});
+
+// Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Clear field errors on input
+['bk-name','bk-phone'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() { this.classList.remove('err'); });
+});
 </script>
 
 </body>
