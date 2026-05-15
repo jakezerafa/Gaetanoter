@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GAETANOT3R — Barber Garage | Attard, Malta</title>
+  <meta name="description" content="GAETANOT3R Barber Garage by Gaetano Dello Russo. Precision cuts, fades, and beard work in Attard, Malta. Book online.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg:           #080808;
+      --elevated:     #0f0f0f;
+      --card:         #141414;
+      --card-hover:   #1a1a1a;
+      --border:       rgba(255,255,255,0.07);
+      --border-gold:  rgba(201,168,76,0.28);
+      --gold:         #C9A84C;
+      --gold-light:   #D9BC6A;
+      --gold-dim:     rgba(201,168,76,0.12);
+      --text:         #FFFFFF;
+      --text-sec:     rgba(255,255,255,0.62);
+      --text-muted:   rgba(255,255,255,0.35);
+      --red:          #E05252;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.022;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── TYPOGRAPHY ── */
+    h1, h2, h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 0.03em;
+      line-height: 1;
+    }
+
+    /* ── SECTION LABEL ── */
+    .label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .label::before {
+      content: '';
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 13px 24px;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: #080808;
+      box-shadow: 0 4px 24px rgba(201,168,76,0.32), 0 2px 6px rgba(0,0,0,0.5);
+      transition: background 0.18s ease, transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
+    }
+    .btn-gold:hover  { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.48), 0 3px 10px rgba(0,0,0,0.6); }
+    .btn-gold:active { transform: translateY(0); }
+    .btn-gold:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.18);
+      transition: border-color 0.18s ease, background 0.18s ease, transform 0.2s cubic-bezier(.34,1.56,.64,1);
+    }
+    .btn-ghost:hover  { border-color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.04); transform: translateY(-1px); }
+    .btn-ghost:active { transform: translateY(0); }
+    .btn-ghost:focus-visible { outline: 2px solid rgba(255,255,255,0.35); outline-offset: 3px; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(.16,1,.3,1), transform 0.65s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.08s; }
+    .d2 { transition-delay: 0.16s; }
+    .d3 { transition-delay: 0.24s; }
+    .d4 { transition-delay: 0.32s; }
+    .d5 { transition-delay: 0.40s; }
+
+    /* ═══════════════════════════════
+       NAV
+    ═══════════════════════════════ */
+    #nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 200;
+      height: 68px;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+      border-bottom: 1px solid transparent;
+    }
+    #nav.stuck {
+      background: rgba(8,8,8,0.9);
+      backdrop-filter: blur(18px);
+      border-bottom-color: var(--border);
+    }
+
+    .nav-logo img {
+      height: 38px;
+      width: auto;
+      mix-blend-mode: screen;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 36px;
+    }
+    .nav-links a {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-sec);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.2s ease;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.22s cubic-bezier(.16,1,.3,1);
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; border-radius: 2px; }
+
+    .nav-book { padding: 10px 20px; font-size: 12px; }
+
+    /* Hamburger */
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .burger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: transform 0.28s cubic-bezier(.16,1,.3,1), opacity 0.2s ease;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .burger:focus-visible { outline: 2px solid var(--gold); border-radius: 4px; }
+
+    /* Mobile drawer */
+    #mob-nav {
+      display: none;
+      position: fixed;
+      top: 68px;
+      inset: 68px 0 auto 0;
+      z-index: 199;
+      background: rgba(8,8,8,0.97);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px 28px;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.28s cubic-bezier(.16,1,.3,1);
+    }
+    #mob-nav.open { opacity: 1; transform: translateY(0); pointer-events: all; }
+    #mob-nav ul { list-style: none; margin-bottom: 20px; }
+    #mob-nav li a {
+      display: block;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-sec);
+      text-decoration: none;
+      transition: color 0.18s ease;
+    }
+    #mob-nav li a:hover { color: #fff; }
+
+    /* ═══════════════════════════════
+       HERO
+    ═══════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% 5%,  rgba(201,168,76,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 85% 80%, rgba(201,168,76,0.04) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 40% at 15% 65%, rgba(90,65,10,0.04)   0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero-inner { position: relative; z-index: 1; }
+
+    .hero-logo {
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 0 36px rgba(201,168,76,0.18));
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .hero-h1 {
+      font-size: clamp(64px, 14vw, 140px);
+      line-height: 0.88;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .hero-h1 .accent { color: var(--gold); }
+    .hero-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(10px, 2vw, 13px);
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .hero-tagline {
+      font-size: clamp(15px, 2.5vw, 19px);
+      font-weight: 300;
+      color: var(--text-sec);
+      max-width: 440px;
+      margin: 0 auto 44px;
+      line-height: 1.6;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-top: 60px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 34px;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .stat-div { width: 1px; height: 36px; background: var(--border); }
+
+    .hero-rule {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.35) 30%, rgba(201,168,76,0.6) 50%, rgba(201,168,76,0.35) 70%, transparent 100%);
+    }
+
+    /* ═══════════════════════════════
+       ABOUT
+    ═══════════════════════════════ */
+    #about {
+      padding: 100px 24px;
+    }
+    .about-wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+    .about-img-wrap {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .about-img-wrap img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(30%) contrast(1.08);
+    }
+    .about-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.65) 0%, transparent 55%);
+    }
+    .about-badge {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      z-index: 1;
+      background: var(--gold);
+      color: #080808;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      padding: 8px 14px;
+      border-radius: 5px;
+    }
+    .about-content h2 {
+      font-size: clamp(48px, 6vw, 76px);
+      line-height: 0.92;
+      margin-bottom: 24px;
+    }
+    .about-content p {
+      font-size: 15px;
+      color: var(--text-sec);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+    .about-details {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .detail-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-sec);
+    }
+    .detail-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 15px;
+    }
+
+    /* ═══════════════════════════════
+       SERVICES
+    ═══════════════════════════════ */
+    #services {
+      padding: 100px 24px;
+      background: var(--elevated);
+      position: relative;
+    }
+    #services::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4) 50%, transparent);
+    }
+    .services-wrap { max-width: 1100px; margin: 0 auto; }
+    .services-hd { text-align: center; margin-bottom: 56px; }
+    .services-hd h2 { font-size: clamp(52px, 9vw, 96px); margin-bottom: 12px; }
+    .services-hd p { font-size: 15px; color: var(--text-muted); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .svc-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.22s ease, background 0.22s ease,
+                  transform 0.22s cubic-bezier(.16,1,.3,1), box-shadow 0.22s ease;
+    }
+    .svc-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      opacity: 0;
+      transition: opacity 0.22s ease;
+    }
+    .svc-card:hover {
+      border-color: var(--border-gold);
+      background: var(--card-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.5), 0 4px 16px rgba(201,168,76,0.07);
+    }
+    .svc-card:hover::before { opacity: 1; }
+    .svc-card.featured {
+      border-color: var(--border-gold);
+      background: linear-gradient(140deg, #141414 0%, #181208 100%);
+    }
+    .svc-card.featured::before { opacity: 1; }
+
+    .svc-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: var(--gold-dim);
+      border: 1px solid var(--border-gold);
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+    .svc-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .svc-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+    .svc-foot {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+    .svc-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 38px;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .svc-dur {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ═══════════════════════════════
+       GALLERY
+    ═══════════════════════════════ */
+    #gallery { padding: 100px 24px; }
+    .gallery-wrap { max-width: 1160px; margin: 0 auto; }
+    .gallery-hd { text-align: center; margin-bottom: 56px; }
+    .gallery-hd h2 { font-size: clamp(52px, 9vw, 96px); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 260px;
+      gap: 10px;
+    }
+    .gal-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .gal-item:nth-child(1) { grid-row: span 2; }
+    .gal-item:nth-child(4) { grid-column: span 2; }
+
+    .gal-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(45%) contrast(1.08);
+      transition: transform 0.6s cubic-bezier(.16,1,.3,1), filter 0.4s ease;
+    }
+    .gal-item:hover img {
+      transform: scale(1.06);
+      filter: grayscale(0%) contrast(1.05);
+    }
+    .gal-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.75) 0%, rgba(8,8,8,0.15) 50%, transparent 100%);
+    }
+    .gal-tint {
+      position: absolute;
+      inset: 0;
+      background: rgba(201,168,76,0.08);
+      mix-blend-mode: multiply;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .gal-item:hover .gal-tint { opacity: 1; }
+
+    /* ═══════════════════════════════
+       BOOKING
+    ═══════════════════════════════ */
+    #booking {
+      padding: 100px 24px;
+      background: var(--elevated);
+      position: relative;
+    }
+    #booking::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4) 50%, transparent);
+    }
+    #booking::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 420px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.055) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .booking-wrap {
+      max-width: 660px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .booking-hd { text-align: center; margin-bottom: 44px; }
+    .booking-hd h2 { font-size: clamp(52px, 9vw, 96px); margin-bottom: 12px; }
+    .booking-hd p { font-size: 14px; color: var(--text-muted); }
+
+    .booking-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55), 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .booking-card-inner { padding: 40px; }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .fg {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+    .fg:last-of-type { margin-bottom: 0; }
+    label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .req { color: var(--gold); }
+    input, select, textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 7px;
+      padding: 13px 15px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-muted); }
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(201,168,76,0.45);
+      background: rgba(255,255,255,0.06);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.09);
+    }
+    input.err, select.err, textarea.err {
+      border-color: rgba(224,82,82,0.55);
+      box-shadow: 0 0 0 3px rgba(224,82,82,0.08);
+    }
+    .ferr {
+      font-size: 11px;
+      color: var(--red);
+      display: none;
+    }
+    .ferr.show { display: block; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.35)' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      padding-right: 38px;
+      cursor: pointer;
+    }
+    select option { background: #1a1a1a; }
+    textarea { resize: vertical; min-height: 90px; }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.55) sepia(1) saturate(2) hue-rotate(10deg);
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      width: 100%;
+      justify-content: center;
+      font-size: 14px;
+      padding: 15px 28px;
+      border-radius: 8px;
+      margin-top: 28px;
+    }
+
+    /* Success state */
+    .booking-success {
+      display: none;
+      text-align: center;
+      padding: 52px 40px;
+    }
+    .booking-success.show { display: block; }
+    .success-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 22px;
+      font-size: 26px;
+      color: var(--gold);
+    }
+    .success-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 42px;
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+    }
+    .success-msg {
+      font-size: 14px;
+      color: var(--text-sec);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════
+       CONTACT
+    ═══════════════════════════════ */
+    #contact { padding: 100px 24px; }
+    .contact-wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 72px;
+      align-items: start;
+    }
+    .contact-left h2 { font-size: clamp(52px, 6vw, 76px); line-height: 0.92; margin-bottom: 20px; }
+    .contact-left > p { font-size: 15px; color: var(--text-sec); line-height: 1.7; margin-bottom: 36px; }
+
+    .c-items { display: flex; flex-direction: column; gap: 14px; }
+    .c-item { display: flex; align-items: flex-start; gap: 14px; }
+    .c-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 9px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+    }
+    .c-text strong {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+    .c-text span, .c-text a {
+      font-size: 14px;
+      color: var(--text-sec);
+      text-decoration: none;
+      transition: color 0.18s ease;
+    }
+    .c-text a:hover { color: var(--gold); }
+    .c-text a:focus-visible { outline: 2px solid var(--gold); border-radius: 2px; }
+
+    .hours-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .hours-head {
+      background: var(--gold);
+      color: #080808;
+      padding: 18px 24px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.08em;
+    }
+    .hours-body { padding: 24px; }
+    .h-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .h-row:last-child { border-bottom: none; }
+    .h-day { color: var(--text-sec); }
+    .h-time { color: #fff; font-weight: 600; }
+    .h-closed { color: var(--text-muted); }
+
+    /* ═══════════════════════════════
+       FOOTER
+    ═══════════════════════════════ */
+    footer {
+      background: #040404;
+      border-top: 1px solid var(--border);
+      padding: 36px 32px;
+    }
+    .foot-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .foot-logo img { height: 28px; mix-blend-mode: screen; opacity: 0.65; }
+    .foot-copy { font-size: 12px; color: var(--text-muted); }
+    .foot-social { display: flex; gap: 10px; }
+    .foot-social a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease,
+                  transform 0.2s cubic-bezier(.34,1.56,.64,1);
+    }
+    .foot-social a:hover {
+      background: var(--gold-dim);
+      border-color: var(--border-gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+    .foot-social a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    /* ═══════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════ */
+    @media (max-width: 900px) {
+      .nav-links, .nav-book { display: none; }
+      .burger { display: flex; }
+      #mob-nav { display: block; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-wrap { grid-template-columns: 1fr; gap: 44px; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 44px; }
+      .gallery-grid { grid-auto-rows: 200px; }
+    }
+    @media (max-width: 640px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 180px;
+      }
+      .gal-item:nth-child(1) { grid-row: auto; }
+      .gal-item:nth-child(4) { grid-column: auto; }
+      .form-row-2 { grid-template-columns: 1fr; }
+      .booking-card-inner { padding: 24px 18px; }
+      .foot-inner { flex-direction: column; align-items: center; text-align: center; }
+      #nav { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAV
+══════════════════════════════════════ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo" aria-label="GAETANOT3R Home">
+    <img src="brand-assets/gaetanoter logo.png" alt="GAETANOT3R Barber Garage">
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+
+  <a href="#booking" class="btn btn-gold nav-book">Book Now</a>
+
+  <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div id="mob-nav" role="navigation" aria-label="Mobile navigation">
+  <ul>
+    <li><a href="#services" class="mob-link">Services</a></li>
+    <li><a href="#about"    class="mob-link">About</a></li>
+    <li><a href="#gallery"  class="mob-link">Gallery</a></li>
+    <li><a href="#contact"  class="mob-link">Contact</a></li>
+  </ul>
+  <a href="#booking" class="btn btn-gold mob-link" style="width:100%;justify-content:center;">Book an Appointment</a>
+</div>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="reveal">
+      <img src="brand-assets/gaetanoter logo.png" alt="GAETANOT3R" class="hero-logo">
+    </div>
+    <p class="hero-eyebrow reveal d1">Attard, Malta</p>
+    <h1 class="hero-h1 reveal d2">GAETANOT<span class="accent">3</span>R</h1>
+    <p class="hero-sub reveal d2">Barber Garage</p>
+    <p class="hero-tagline reveal d3">Precision cuts. Raw style.<br>Built in the garage — delivered like art.</p>
+    <div class="hero-btns reveal d4">
+      <a href="#booking" class="btn btn-gold">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Book Appointment
+      </a>
+      <a href="#services" class="btn btn-ghost">View Services</a>
+    </div>
+    <div class="hero-stats reveal d5">
+      <div>
+        <div class="stat-num">5.0★</div>
+        <div class="stat-lbl">Rating</div>
+      </div>
+      <div class="stat-div"></div>
+      <div>
+        <div class="stat-num">147+</div>
+        <div class="stat-lbl">Reviews</div>
+      </div>
+      <div class="stat-div"></div>
+      <div>
+        <div class="stat-num">10+</div>
+        <div class="stat-lbl">Years Craft</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-rule"></div>
+</section>
+
+<!-- ══════════════════════════════════════
+     ABOUT
+══════════════════════════════════════ -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-img-wrap reveal">
+      <img
+        src="https://picsum.photos/seed/barbershop42/500/640"
+        alt="Gaetano at work"
+        loading="lazy"
+        onerror="this.src='https://placehold.co/500x640/111111/333333?text=GAETANOT3R'"
+      >
+      <div class="about-badge">Est. 2014</div>
+    </div>
+
+    <div class="about-content">
+      <div class="label reveal">About Gaetano</div>
+      <h2 class="reveal d1">CRAFT OVER<br>EVERYTHING</h2>
+      <p class="reveal d2">Gaetano Dello Russo isn't just a barber — he's a craftsman who treats every cut like a signature. At T3R Barber Garage in Attard, the work speaks for itself: sharp lines, clean fades, zero compromise.</p>
+      <p class="reveal d2">Whether it's a classic clipper cut or a full scissors finish, every client leaves looking like the best version of themselves. No rush. No shortcuts. Just pure barbering.</p>
+
+      <div class="about-details">
+        <div class="detail-row reveal d3">
+          <div class="detail-icon">📍</div>
+          <span>109 Triq il-Mosta, Attard, Malta</span>
+        </div>
+        <div class="detail-row reveal d3">
+          <div class="detail-icon">📞</div>
+          <span>7771 9151</span>
+        </div>
+        <div class="detail-row reveal d4">
+          <div class="detail-icon">⭐</div>
+          <span>5.0 rating · 147 Google reviews</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     SERVICES
+══════════════════════════════════════ -->
+<section id="services">
+  <div class="services-wrap">
+    <div class="services-hd">
+      <div class="label reveal" style="justify-content:center;">Services &amp; Pricing</div>
+      <h2 class="reveal d1">WHAT WE DO</h2>
+      <p class="reveal d2">Every service is done right. No exceptions.</p>
+    </div>
+
+    <div class="services-grid">
+
+      <div class="svc-card reveal">
+        <span class="svc-tag">Hair</span>
+        <div class="svc-name">Haircut — Clipper</div>
+        <div class="svc-desc">Clean clipper cut, shaped and finished with precision. Quick, sharp, done.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€11</div>
+          <div class="svc-dur">30 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d1">
+        <span class="svc-tag">Hair</span>
+        <div class="svc-name">Haircut — Scissors</div>
+        <div class="svc-desc">Full scissors cut with precision detailing. The classic way, executed properly.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€17</div>
+          <div class="svc-dur">30 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d2">
+        <span class="svc-tag">Hair</span>
+        <div class="svc-name">Fade</div>
+        <div class="svc-desc">Skin to high — graduated precision from zero to full length. A Gaetano signature.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€15</div>
+          <div class="svc-dur">45 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d1">
+        <span class="svc-tag">Beard</span>
+        <div class="svc-name">Beard Grooming</div>
+        <div class="svc-desc">Shape, trim, and line-up for a clean, maintained beard. No mess left behind.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€9</div>
+          <div class="svc-dur">15 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d2">
+        <span class="svc-tag">Beard</span>
+        <div class="svc-name">Beard Shave</div>
+        <div class="svc-desc">Traditional shave with hot towel finish. Smooth result, every time.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€10</div>
+          <div class="svc-dur">15 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d3">
+        <span class="svc-tag">Combo</span>
+        <div class="svc-name">Hair + Beard Combo</div>
+        <div class="svc-desc">Clipper cut and beard grooming together. The full package for the full look.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€20</div>
+          <div class="svc-dur">45 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d1">
+        <span class="svc-tag">Combo</span>
+        <div class="svc-name">Scissors + Beard</div>
+        <div class="svc-desc">Full scissors cut with beard grooming. Maximum craft, maximum impact.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€26</div>
+          <div class="svc-dur">60 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d2">
+        <span class="svc-tag">Kids</span>
+        <div class="svc-name">Kids Cut</div>
+        <div class="svc-desc">A proper cut for the little ones. Patient, gentle, sharp result guaranteed.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€12</div>
+          <div class="svc-dur">30 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card featured reveal d3">
+        <span class="svc-tag">Premium</span>
+        <div class="svc-name">Complete Package</div>
+        <div class="svc-desc">Haircut + beard + full waxing treatment. Leave looking completely immaculate.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€37</div>
+          <div class="svc-dur">60 min</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     GALLERY
+══════════════════════════════════════ -->
+<section id="gallery">
+  <div class="gallery-wrap">
+    <div class="gallery-hd">
+      <div class="label reveal" style="justify-content:center;">The Work</div>
+      <h2 class="reveal d1">GALLERY</h2>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gal-item reveal">
+        <img src="https://picsum.photos/seed/barb01/500/700" alt="Barber work" loading="lazy" onerror="this.src='https://placehold.co/500x700/111111/222222'">
+        <div class="gal-overlay"></div><div class="gal-tint"></div>
+      </div>
+      <div class="gal-item reveal d1">
+        <img src="https://picsum.photos/seed/barb02/500/380" alt="Fade cut" loading="lazy" onerror="this.src='https://placehold.co/500x380/111111/222222'">
+        <div class="gal-overlay"></div><div class="gal-tint"></div>
+      </div>
+      <div class="gal-item reveal d2">
+        <img src="https://picsum.photos/seed/barb03/500/380" alt="Precision cut" loading="lazy" onerror="this.src='https://placehold.co/500x380/111111/222222'">
+        <div class="gal-overlay"></div><div class="gal-tint"></div>
+      </div>
+      <div class="gal-item reveal d1">
+        <img src="https://picsum.photos/seed/barb04/900/380" alt="The garage" loading="lazy" onerror="this.src='https://placehold.co/900x380/111111/222222'">
+        <div class="gal-overlay"></div><div class="gal-tint"></div>
+      </div>
+      <div class="gal-item reveal d2">
+        <img src="https://picsum.photos/seed/barb05/500/380" alt="Beard trim" loading="lazy" onerror="this.src='https://placehold.co/500x380/111111/222222'">
+        <div class="gal-overlay"></div><div class="gal-tint"></div>
+      </div>
+      <div class="gal-item reveal d3">
+        <img src="https://picsum.photos/seed/barb06/500/380" alt="Sharp lines" loading="lazy" onerror="this.src='https://placehold.co/500x380/111111/222222'">
+        <div class="gal-overlay"></div><div class="gal-tint"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     BOOKING
+══════════════════════════════════════ -->
+<section id="booking">
+  <div class="booking-wrap">
+    <div class="booking-hd">
+      <div class="label reveal" style="justify-content:center;">Online Booking</div>
+      <h2 class="reveal d1">BOOK YOUR SEAT</h2>
+      <p class="reveal d2">Mon – Sat &nbsp;·&nbsp; 8:30 AM – 6:30 PM &nbsp;·&nbsp; Attard, Malta</p>
+    </div>
+
+    <div class="booking-card reveal d2">
+      <!-- Success -->
+      <div class="booking-success" id="bk-success">
+        <div class="success-icon">✓</div>
+        <div class="success-title">YOU'RE BOOKED</div>
+        <p class="success-msg">Your request has been saved.<br>Gaetano will confirm shortly. See you at the garage.</p>
+        <button class="btn btn-ghost" onclick="resetForm()" style="margin:0 auto;">Book Another</button>
+      </div>
+
+      <!-- Form -->
+      <form id="bk-form" class="booking-card-inner" novalidate>
+
+        <div class="form-row-2">
+          <div class="fg">
+            <label for="f-name">Full Name <span class="req">*</span></label>
+            <input type="text" id="f-name" placeholder="Your name" autocomplete="name">
+            <span class="ferr" id="e-name">Please enter your name.</span>
+          </div>
+          <div class="fg">
+            <label for="f-phone">Phone <span class="req">*</span></label>
+            <input type="tel" id="f-phone" placeholder="7771 9151" autocomplete="tel">
+            <span class="ferr" id="e-phone">Enter a valid phone number.</span>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label for="f-email">Email <span class="req">*</span></label>
+          <input type="email" id="f-email" placeholder="your@email.com" autocomplete="email">
+          <span class="ferr" id="e-email">Enter a valid email address.</span>
+        </div>
+
+        <div class="fg">
+          <label for="f-service">Service <span class="req">*</span></label>
+          <select id="f-service">
+            <option value="" disabled selected>Select a service…</option>
+            <option value="clipper">Haircut — Clipper · €11 · 30 min</option>
+            <option value="scissors">Haircut — Scissors · €17 · 30 min</option>
+            <option value="fade">Fade · €15 · 45 min</option>
+            <option value="beard-groom">Beard Grooming · €9 · 15 min</option>
+            <option value="beard-shave">Beard Shave · €10 · 15 min</option>
+            <option value="combo">Hair + Beard Combo · €20 · 45 min</option>
+            <option value="scissors-beard">Scissors + Beard · €26 · 60 min</option>
+            <option value="kids">Kids Cut · €12 · 30 min</option>
+            <option value="premium">Complete Package · €37 · 60 min</option>
+          </select>
+          <span class="ferr" id="e-service">Please select a service.</span>
+        </div>
+
+        <div class="form-row-2">
+          <div class="fg">
+            <label for="f-date">Preferred Date <span class="req">*</span></label>
+            <input type="date" id="f-date">
+            <span class="ferr" id="e-date">Pick a date (Mon–Sat only).</span>
+          </div>
+          <div class="fg">
+            <label for="f-time">Preferred Time <span class="req">*</span></label>
+            <select id="f-time">
+              <option value="" disabled selected>Select time…</option>
+            </select>
+            <span class="ferr" id="e-time">Please select a time.</span>
+          </div>
+        </div>
+
+        <div class="fg" style="margin-bottom:0;">
+          <label for="f-notes">Notes (optional)</label>
+          <textarea id="f-notes" placeholder="Style references, allergies, anything Gaetano should know…"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-gold submit-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Confirm Booking
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     CONTACT
+══════════════════════════════════════ -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="contact-left">
+      <div class="label reveal">Find Us</div>
+      <h2 class="reveal d1">COME TO<br>THE GARAGE</h2>
+      <p class="reveal d2">Walk-ins welcome when available. For a guaranteed seat, book online or give us a ring.</p>
+
+      <div class="c-items">
+        <div class="c-item reveal d2">
+          <div class="c-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="c-text">
+            <strong>Address</strong>
+            <span>109 Triq il-Mosta, Attard, Malta</span>
+          </div>
+        </div>
+
+        <div class="c-item reveal d3">
+          <div class="c-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-.88a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div class="c-text">
+            <strong>Phone</strong>
+            <a href="tel:77719151">7771 9151</a>
+          </div>
+        </div>
+
+        <div class="c-item reveal d3">
+          <div class="c-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="c-text">
+            <strong>Email</strong>
+            <a href="mailto:dellorussogaetano8@gmail.com">dellorussogaetano8@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="c-item reveal d4">
+          <div class="c-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </div>
+          <div class="c-text">
+            <strong>Instagram</strong>
+            <a href="https://www.instagram.com/gaetanot3r_barber_garage/" target="_blank" rel="noopener">@gaetanot3r_barber_garage</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hours-card reveal d2">
+      <div class="hours-head">OPENING HOURS</div>
+      <div class="hours-body">
+        <div class="h-row"><span class="h-day">Monday</span>   <span class="h-time">8:30 AM – 6:30 PM</span></div>
+        <div class="h-row"><span class="h-day">Tuesday</span>  <span class="h-time">8:30 AM – 6:30 PM</span></div>
+        <div class="h-row"><span class="h-day">Wednesday</span><span class="h-time">8:30 AM – 6:30 PM</span></div>
+        <div class="h-row"><span class="h-day">Thursday</span> <span class="h-time">8:30 AM – 6:30 PM</span></div>
+        <div class="h-row"><span class="h-day">Friday</span>   <span class="h-time">8:30 AM – 6:30 PM</span></div>
+        <div class="h-row"><span class="h-day">Saturday</span> <span class="h-time">8:30 AM – 6:30 PM</span></div>
+        <div class="h-row"><span class="h-day">Sunday</span>   <span class="h-closed">Closed</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-logo">
+      <img src="brand-assets/gaetanoter logo.png" alt="GAETANOT3R">
+    </div>
+    <p class="foot-copy">© 2025 GAETANOT3R Barber Garage · Attard, Malta</p>
+    <div class="foot-social">
+      <a href="https://www.instagram.com/gaetanot3r_barber_garage/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="tel:77719151" aria-label="Call">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-.88a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── NAV SCROLL STATE ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('stuck', window.scrollY > 24);
+}, { passive: true });
+
+// ── HAMBURGER ──
+const burger   = document.getElementById('burger');
+const mobNav   = document.getElementById('mob-nav');
+
+burger.addEventListener('click', () => {
+  const open = burger.classList.toggle('open');
+  mobNav.classList.toggle('open', open);
+  burger.setAttribute('aria-expanded', String(open));
+});
+
+document.querySelectorAll('.mob-link').forEach(a => {
+  a.addEventListener('click', () => {
+    burger.classList.remove('open');
+    mobNav.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  });
+});
+
+// ── SCROLL REVEAL ──
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => {
+  if (el.closest('#hero')) { el.classList.add('in'); return; }
+  io.observe(el);
+});
+
+// ── TIME SLOTS ──
+(function buildSlots() {
+  const sel = document.getElementById('f-time');
+  for (let h = 8; h <= 18; h++) {
+    for (let m = 0; m < 60; m += 30) {
+      if (h === 8 && m === 0) continue;
+      if (h === 18 && m === 30) continue;
+      const h12  = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const mStr = m === 0 ? '00' : '30';
+      const opt  = document.createElement('option');
+      opt.value       = `${String(h).padStart(2,'0')}:${mStr}`;
+      opt.textContent = `${h12}:${mStr} ${ampm}`;
+      sel.appendChild(opt);
+    }
+  }
+})();
+
+// ── DATE BOUNDS ──
+(function setDateBounds() {
+  const inp = document.getElementById('f-date');
+  const fmt = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const today = new Date();
+  const max   = new Date(today); max.setDate(max.getDate() + 60);
+  inp.min = fmt(today);
+  inp.max = fmt(max);
+})();
+
+// ── FORM VALIDATION ──
+function setErr(fieldId, errId, show) {
+  document.getElementById(fieldId).classList.toggle('err', show);
+  document.getElementById(errId).classList.toggle('show', show);
+}
+function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+function validPhone(v) { return v.replace(/[\s\-\+\(\)]/g,'').length >= 7; }
+function isSunday(s)   { return s ? new Date(s + 'T12:00:00').getDay() === 0 : false; }
+
+document.getElementById('bk-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const name    = document.getElementById('f-name').value.trim();
+  const phone   = document.getElementById('f-phone').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const service = document.getElementById('f-service').value;
+  const date    = document.getElementById('f-date').value;
+  const time    = document.getElementById('f-time').value;
+
+  let ok = true;
+  setErr('f-name',    'e-name',    !name);                        if (!name)                    ok = false;
+  setErr('f-phone',   'e-phone',   !validPhone(phone));            if (!validPhone(phone))       ok = false;
+  setErr('f-email',   'e-email',   !validEmail(email));            if (!validEmail(email))       ok = false;
+  setErr('f-service', 'e-service', !service);                      if (!service)                 ok = false;
+  setErr('f-date',    'e-date',    !date || isSunday(date));       if (!date || isSunday(date))  ok = false;
+  setErr('f-time',    'e-time',    !time);                         if (!time)                    ok = false;
+
+  if (!ok) return;
+
+  const bookings = JSON.parse(localStorage.getItem('g3r_bookings') || '[]');
+  bookings.push({ name, phone, email, service, date, time,
+    notes: document.getElementById('f-notes').value.trim(),
+    at: new Date().toISOString() });
+  localStorage.setItem('g3r_bookings', JSON.stringify(bookings));
+
+  document.getElementById('bk-form').style.display = 'none';
+  document.getElementById('bk-success').classList.add('show');
+});
+
+// Clear errors on input
+document.querySelectorAll('input, select, textarea').forEach(el => {
+  el.addEventListener('input', () => {
+    el.classList.remove('err');
+    const err = document.getElementById('e-' + el.id.replace('f-',''));
+    if (err) err.classList.remove('show');
+  });
+});
+
+function resetForm() {
+  const form = document.getElementById('bk-form');
+  form.reset();
+  form.style.display = '';
+  document.getElementById('bk-success').classList.remove('show');
+  document.querySelectorAll('.err').forEach(el => el.classList.remove('err'));
+  document.querySelectorAll('.ferr.show').forEach(el => el.classList.remove('show'));
+}
+</script>
+
+</body>
+</html>
