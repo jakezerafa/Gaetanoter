@@ -529,6 +529,34 @@
       color: var(--text-muted);
       letter-spacing: 0.04em;
     }
+    .svc-cat {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 15px;
+      letter-spacing: 0.16em;
+      color: var(--gold);
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-gold);
+      margin-top: 12px;
+    }
+    .svc-cat:first-child { margin-top: 0; }
+    .svc-cat::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-gold);
+      opacity: 0.4;
+    }
+    .svc-note {
+      font-size: 11px;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-top: 4px;
+      font-style: italic;
+    }
 
     /* ═══════════════════════════════
        GALLERY
@@ -1004,93 +1032,191 @@
 
     <div class="services-grid">
 
+      <!-- ── HAIR ── -->
+      <div class="svc-cat reveal">HAIR</div>
+
       <div class="svc-card reveal">
         <span class="svc-tag">Hair</span>
-        <div class="svc-name">Haircut — Clipper</div>
-        <div class="svc-desc">Clean clipper cut, shaped and finished with precision. Quick, sharp, done.</div>
+        <div class="svc-name">Boys Haircut (0–5 Years)</div>
+        <div class="svc-desc">A gentle, precise cut for the little ones. Quick and sharp.</div>
         <div class="svc-foot">
-          <div class="svc-price">€11</div>
+          <div class="svc-price">€12</div>
+          <div class="svc-dur">15 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d1">
+        <span class="svc-tag">Hair</span>
+        <div class="svc-name">Haircut</div>
+        <div class="svc-desc">Classic clipper haircut, shaped and finished to perfection.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€13</div>
+          <div class="svc-dur">30 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d2">
+        <span class="svc-tag">Hair</span>
+        <div class="svc-name">Skin Fade Haircut</div>
+        <div class="svc-desc">Graduated precision from skin to full length. A Gaetano signature move.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€15</div>
           <div class="svc-dur">30 min</div>
         </div>
       </div>
 
       <div class="svc-card reveal d1">
         <span class="svc-tag">Hair</span>
-        <div class="svc-name">Haircut — Scissors</div>
-        <div class="svc-desc">Full scissors cut with precision detailing. The classic way, executed properly.</div>
+        <div class="svc-name">Clipper Head Shave</div>
+        <div class="svc-desc">Full head clipper shave — clean, sharp, effortless.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€11</div>
+          <div class="svc-dur">15 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d2">
+        <span class="svc-tag">Hair</span>
+        <div class="svc-name">Clean Head Shave</div>
+        <div class="svc-desc">Smooth razor head shave with hot towel. Zero compromise.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€14</div>
+          <div class="svc-dur">30 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d3">
+        <span class="svc-tag">Hair</span>
+        <div class="svc-name">Scissors Haircut</div>
+        <div class="svc-desc">Full scissors cut with precision detailing. The classic way, done properly.</div>
         <div class="svc-foot">
           <div class="svc-price">€17</div>
           <div class="svc-dur">30 min</div>
         </div>
       </div>
 
-      <div class="svc-card reveal d2">
-        <span class="svc-tag">Hair</span>
-        <div class="svc-name">Fade</div>
-        <div class="svc-desc">Skin to high — graduated precision from zero to full length. A Gaetano signature.</div>
+      <!-- ── HAIRCUT & BEARD ── -->
+      <div class="svc-cat reveal">HAIRCUT &amp; BEARD</div>
+
+      <div class="svc-card reveal">
+        <span class="svc-tag">Combo</span>
+        <div class="svc-name">Haircut &amp; Beard</div>
+        <div class="svc-desc">Classic haircut with beard grooming.</div>
+        <div class="svc-note">+€1 for hot towel on beard</div>
         <div class="svc-foot">
-          <div class="svc-price">€15</div>
+          <div class="svc-price">€22</div>
           <div class="svc-dur">45 min</div>
         </div>
       </div>
 
       <div class="svc-card reveal d1">
+        <span class="svc-tag">Combo</span>
+        <div class="svc-name">Skin Fade &amp; Beard</div>
+        <div class="svc-desc">Skin fade haircut paired with beard grooming.</div>
+        <div class="svc-note">+€1 for hot towel on beard</div>
+        <div class="svc-foot">
+          <div class="svc-price">€24</div>
+          <div class="svc-dur">45 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d2">
+        <span class="svc-tag">Combo</span>
+        <div class="svc-name">Clipper Shave &amp; Beard</div>
+        <div class="svc-desc">Full clipper head shave with beard grooming.</div>
+        <div class="svc-note">+€1 for hot towel on beard</div>
+        <div class="svc-foot">
+          <div class="svc-price">€20</div>
+          <div class="svc-dur">30 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d1">
+        <span class="svc-tag">Combo</span>
+        <div class="svc-name">Clean Shave &amp; Beard</div>
+        <div class="svc-desc">Razor head shave with beard grooming. Hot towel included.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€23</div>
+          <div class="svc-dur">45 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card reveal d2">
+        <span class="svc-tag">Combo</span>
+        <div class="svc-name">Scissors Cut &amp; Beard</div>
+        <div class="svc-desc">Full scissors haircut with beard grooming. Maximum craft.</div>
+        <div class="svc-note">+€1 for hot towel on beard</div>
+        <div class="svc-foot">
+          <div class="svc-price">€26</div>
+          <div class="svc-dur">45 min</div>
+        </div>
+      </div>
+
+      <div class="svc-card featured reveal d3">
+        <span class="svc-tag">Premium</span>
+        <div class="svc-name">Complete Pampering Service</div>
+        <div class="svc-desc">Haircut · beard · complete waxing · black mask · shampoo · hair styling. The full experience.</div>
+        <div class="svc-foot">
+          <div class="svc-price">€37</div>
+          <div class="svc-dur">1 hr</div>
+        </div>
+      </div>
+
+      <!-- ── BEARD ONLY ── -->
+      <div class="svc-cat reveal">BEARD ONLY</div>
+
+      <div class="svc-card reveal">
         <span class="svc-tag">Beard</span>
         <div class="svc-name">Beard Grooming</div>
-        <div class="svc-desc">Shape, trim, and line-up for a clean, maintained beard. No mess left behind.</div>
+        <div class="svc-desc">Shape, trim, and line-up for a clean, maintained beard.</div>
+        <div class="svc-note">+€1 for hot towel</div>
         <div class="svc-foot">
           <div class="svc-price">€9</div>
           <div class="svc-dur">15 min</div>
         </div>
       </div>
 
-      <div class="svc-card reveal d2">
+      <div class="svc-card reveal d1">
         <span class="svc-tag">Beard</span>
-        <div class="svc-name">Beard Shave</div>
-        <div class="svc-desc">Traditional shave with hot towel finish. Smooth result, every time.</div>
+        <div class="svc-name">Beard Clean Shave</div>
+        <div class="svc-desc">Traditional razor shave for a smooth, clean finish.</div>
+        <div class="svc-note">+€1 for hot towel</div>
         <div class="svc-foot">
           <div class="svc-price">€10</div>
           <div class="svc-dur">15 min</div>
         </div>
       </div>
 
-      <div class="svc-card reveal d3">
-        <span class="svc-tag">Combo</span>
-        <div class="svc-name">Hair + Beard Combo</div>
-        <div class="svc-desc">Clipper cut and beard grooming together. The full package for the full look.</div>
+      <!-- ── EXTRA SERVICE ── -->
+      <div class="svc-cat reveal">EXTRA SERVICE</div>
+
+      <div class="svc-card reveal">
+        <span class="svc-tag">Extra</span>
+        <div class="svc-name">Shampoo &amp; Hair Styling</div>
+        <div class="svc-desc">Shampoo wash followed by professional hair styling.</div>
         <div class="svc-foot">
-          <div class="svc-price">€20</div>
-          <div class="svc-dur">45 min</div>
+          <div class="svc-price">€7</div>
+          <div class="svc-dur">15 min</div>
         </div>
       </div>
 
       <div class="svc-card reveal d1">
-        <span class="svc-tag">Combo</span>
-        <div class="svc-name">Scissors + Beard</div>
-        <div class="svc-desc">Full scissors cut with beard grooming. Maximum craft, maximum impact.</div>
+        <span class="svc-tag">Extra</span>
+        <div class="svc-name">Eyebrows Shaping</div>
+        <div class="svc-desc">Clean eyebrow shaping. Nose €3 · Ear €3 available separately.</div>
         <div class="svc-foot">
-          <div class="svc-price">€26</div>
-          <div class="svc-dur">60 min</div>
+          <div class="svc-price">€4</div>
+          <div class="svc-dur">15 min</div>
         </div>
       </div>
 
       <div class="svc-card reveal d2">
-        <span class="svc-tag">Kids</span>
-        <div class="svc-name">Kids Cut</div>
-        <div class="svc-desc">A proper cut for the little ones. Patient, gentle, sharp result guaranteed.</div>
+        <span class="svc-tag">Extra</span>
+        <div class="svc-name">Complete Waxing Service</div>
+        <div class="svc-desc">Eyebrows · nose · ears — the complete waxing treatment.</div>
         <div class="svc-foot">
-          <div class="svc-price">€12</div>
-          <div class="svc-dur">30 min</div>
-        </div>
-      </div>
-
-      <div class="svc-card featured reveal d3">
-        <span class="svc-tag">Premium</span>
-        <div class="svc-name">Complete Package</div>
-        <div class="svc-desc">Haircut + beard + full waxing treatment. Leave looking completely immaculate.</div>
-        <div class="svc-foot">
-          <div class="svc-price">€37</div>
-          <div class="svc-dur">60 min</div>
+          <div class="svc-price">€9</div>
+          <div class="svc-dur">15 min</div>
         </div>
       </div>
 
@@ -1183,15 +1309,31 @@
           <label for="f-service">Service <span class="req">*</span></label>
           <select id="f-service">
             <option value="" disabled selected>Select a service…</option>
-            <option value="clipper">Haircut — Clipper · €11 · 30 min</option>
-            <option value="scissors">Haircut — Scissors · €17 · 30 min</option>
-            <option value="fade">Fade · €15 · 45 min</option>
-            <option value="beard-groom">Beard Grooming · €9 · 15 min</option>
-            <option value="beard-shave">Beard Shave · €10 · 15 min</option>
-            <option value="combo">Hair + Beard Combo · €20 · 45 min</option>
-            <option value="scissors-beard">Scissors + Beard · €26 · 60 min</option>
-            <option value="kids">Kids Cut · €12 · 30 min</option>
-            <option value="premium">Complete Package · €37 · 60 min</option>
+            <optgroup label="── HAIR ──">
+              <option value="boys-haircut">Boys Haircut (0–5 Years) · €12 · 15 min</option>
+              <option value="haircut">Haircut · €13 · 30 min</option>
+              <option value="skin-fade">Skin Fade Haircut · €15 · 30 min</option>
+              <option value="clipper-shave">Clipper Head Shave · €11 · 15 min</option>
+              <option value="clean-shave">Clean Head Shave · €14 · 30 min</option>
+              <option value="scissors">Scissors Haircut · €17 · 30 min</option>
+            </optgroup>
+            <optgroup label="── HAIRCUT &amp; BEARD ──">
+              <option value="haircut-beard">Haircut &amp; Beard · €22 · 45 min</option>
+              <option value="fade-beard">Skin Fade &amp; Beard · €24 · 45 min</option>
+              <option value="clipper-beard">Clipper Shave &amp; Beard · €20 · 30 min</option>
+              <option value="cleanshave-beard">Clean Shave &amp; Beard · €23 · 45 min</option>
+              <option value="scissors-beard">Scissors Cut &amp; Beard · €26 · 45 min</option>
+              <option value="premium">Complete Pampering Service · €37 · 1 hr</option>
+            </optgroup>
+            <optgroup label="── BEARD ONLY ──">
+              <option value="beard-groom">Beard Grooming · €9 · 15 min</option>
+              <option value="beard-shave">Beard Clean Shave · €10 · 15 min</option>
+            </optgroup>
+            <optgroup label="── EXTRA SERVICE ──">
+              <option value="shampoo-styling">Shampoo &amp; Hair Styling · €7 · 15 min</option>
+              <option value="eyebrows">Eyebrows Shaping · €4 · 15 min</option>
+              <option value="waxing">Complete Waxing Service · €9 · 15 min</option>
+            </optgroup>
           </select>
           <span class="ferr" id="e-service">Please select a service.</span>
         </div>
